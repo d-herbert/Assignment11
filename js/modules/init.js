@@ -1,4 +1,4 @@
-export function init() {
+function init() {
     // display command menu
     console.log('the employee management application')
     console.log('-------------------------------------')  
