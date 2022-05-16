@@ -1,12 +1,34 @@
-import { init } from 'modules/init.js'
-let arrEmployees = init()
-
 // GET DOM ELEMENTS
 let empTable    = document.querySelector('#employees');
 let empCount    = document.querySelector('#empCount');
 
-// BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
-buildGrid(arrEmployees);
+// BUILD THE EMPLOYEES GRID
+function buildGrid(arrEmployees) {
+    // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
+    empTable.lastElementChild.remove();
+    // REBUILD THE TBODY FROM SCRATCH
+    let tbody = document.createElement('tbody');
+    // LOOP THROUGH THE ARRAY OF EMPLOYEES
+    // REBUILDING THE ROW STRUCTURE
+    console.log(arrEmployees)
+
+    for (let employee of arrEmployees) {
+        tbody.innerHTML += 
+        `
+        <tr>
+            <td>${employee[0]}</td>
+            <td>${employee[1]}</td>
+            <td>${employee[2]}</td>
+            <td>${employee[3]}</td>
+            <td><button class="btn btn-sm btn-danger delete">X</button></td>
+        </tr>
+        `
+    }
+    // BIND THE TBODY TO THE EMPLOYEE TABLE
+    empTable.appendChild(tbody);
+    // UPDATE EMPLOYEE COUNT
+    empCount.value = `(${arrEmployees.length})`;
+};
 
 // DELETE EMPLOYEE
 empTable.addEventListener('click', (e) => {
@@ -20,30 +42,3 @@ empTable.addEventListener('click', (e) => {
         }
     }
 });
-
-// BUILD THE EMPLOYEES GRID
-function buildGrid(arrEmployees) {
-    // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
-    empTable.lastElementChild.remove();
-    // REBUILD THE TBODY FROM SCRATCH
-    let tbody = document.createElement('tbody');
-    // LOOP THROUGH THE ARRAY OF EMPLOYEES
-    // REBUILDING THE ROW STRUCTURE
-    for (let employee of arrEmployees) {
-        tbody.innerHTML += 
-        `
-        <tr>
-            <td>${employee[0]}</td>
-            <td>${employee[1]}</td>
-            <td>${employee[2]}</td>
-            <td><a href="mailto:${employee[3]}">${employee[3]}</a></td>
-            <td>${employee[4]}</td>
-            <td><button class="btn btn-sm btn-danger delete">X</button></td>
-        </tr>
-        `
-    }
-    // BIND THE TBODY TO THE EMPLOYEE TABLE
-    empTable.appendChild(tbody);
-    // UPDATE EMPLOYEE COUNT
-    empCount.value = `(${arrEmployees.length})`;
-};

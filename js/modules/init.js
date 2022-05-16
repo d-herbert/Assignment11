@@ -5,17 +5,22 @@ export function init() {
     // start with empty array
     let arrEmployees = []
     // fetch json data using promises
-    fetch('../data/employees.json')
-        .then( response => response.json() )
-        .then( data =>  {
-            // console.log(data.employees[0].ID)
-            for (let employee of data.employees) {
-                arrEmployees.push([`${employee.ID}, ${employee.Name}, ${employee.Ext}, ${employee.Email}, ${employee.Department}`])
+    async function fetchUsers() {
+        try {
+            const response = await fetch('../data/employees.json')
+            const users = await response.json()
+            for (let i=0; i < users['employees'].length; i++) {
+                arrEmployees.push([`${users['employees'][i]['ID']}`, `${users['employees'][i]['Name']}`, `${users['employees'][i]['Email']}`, `${users['employees'][i]['Department']}`])
             }
-        })
-        .catch( error => console.log(error.message))
-    console.log(arrEmployees)
-    return arrEmployees
+        do {
+            buildGrid(arrEmployees)
+            break
+        } while (true)
+        } catch (error) {
+        console.error(error)
+        }
+    }
+    fetchUsers()
 }
 
 init()
